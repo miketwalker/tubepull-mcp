@@ -1,0 +1,73 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server.json",
+  "name": "tubepull",
+  "version": "1.2.0",
+  "description": "Download YouTube videos as MP3, M4A, or MP4 directly from your AI assistant. Returns a signed one-time download link valid for 1 hour. Free tier: 3 downloads/24h. Unlimited: $3.99/mo.",
+  "websiteUrl": "https://tubepull.com",
+  "repositoryUrl": "https://github.com/miketwalker/tubepull-mcp",
+  "documentationUrl": "https://github.com/miketwalker/tubepull-mcp/blob/main/AGENTS.md",
+  "author": {
+    "name": "miketwalker",
+    "url": "https://github.com/miketwalker"
+  },
+  "license": "MIT",
+  "categories": ["media", "youtube", "downloader", "audio", "video"],
+  "tags": [
+    "youtube",
+    "youtube-downloader",
+    "mp3",
+    "mp4",
+    "audio-extraction",
+    "video-download",
+    "media",
+    "remote-mcp",
+    "hosted"
+  ],
+  "icons": [
+    {
+      "src": "https://tubepull.com/assets/brand/favicon-192.png",
+      "mimeType": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://tubepull.com/assets/brand/favicon-32.png",
+      "mimeType": "image/png",
+      "sizes": "32x32"
+    }
+  ],
+  "transport": {
+    "type": "http",
+    "url": "https://tubepull.com/mcp"
+  },
+  "protocol": {
+    "version": "2024-11-05"
+  },
+  "capabilities": {
+    "tools": {}
+  },
+  "tools": [
+    {
+      "name": "download_video",
+      "description": "Download a YouTube video as MP3, M4A, or MP4. Returns a one-time signed download link valid for 1 hour."
+    },
+    {
+      "name": "get_video_info",
+      "description": "Fetch metadata for a YouTube video (title, channel, duration, qualities, license) without downloading. Free — does not count against the quota."
+    }
+  ],
+  "pricing": {
+    "free": {
+      "downloadsPer24h": 3,
+      "maxQuality": "1080p",
+      "maxDurationSec": 7200
+    },
+    "paid": {
+      "plan": "Unlimited",
+      "priceUsdMonthly": 3.99,
+      "downloadsPer24h": null,
+      "maxQuality": "2160p",
+      "maxDurationSec": null,
+      "upgradeUrl": "https://tubepull.com"
+    }
+  }
+}
