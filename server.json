@@ -10,31 +10,76 @@
     "source": "github"
   },
   "documentationUrl": "https://github.com/miketwalker/tubepull-mcp/blob/main/AGENTS.md",
-  "author": { "name": "miketwalker", "url": "https://github.com/miketwalker" },
+  "author": {
+    "name": "miketwalker",
+    "url": "https://github.com/miketwalker"
+  },
   "license": "MIT",
-  "categories": ["media", "youtube", "downloader", "audio", "video"],
-  "tags": ["youtube","youtube-downloader","mp3","mp4","audio-extraction","video-download","media","remote-mcp","hosted"],
+  "categories": [
+    "media",
+    "youtube",
+    "downloader",
+    "audio",
+    "video"
+  ],
+  "tags": [
+    "youtube",
+    "youtube-downloader",
+    "mp3",
+    "mp4",
+    "audio-extraction",
+    "video-download",
+    "media",
+    "remote-mcp",
+    "hosted"
+  ],
   "icons": [
-    { "src": "https://tubepull.com/assets/brand/favicon-192.png", "mimeType": "image/png", "sizes": ["192x192"] },
-    { "src": "https://tubepull.com/assets/brand/favicon-32.png",  "mimeType": "image/png", "sizes": ["32x32"]  }
+    {
+      "src": "https://tubepull.com/assets/brand/favicon-192.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "192x192"
+      ]
+    },
+    {
+      "src": "https://tubepull.com/assets/brand/favicon-32.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "32x32"
+      ]
+    }
   ],
   "remotes": [
-    { "transport": "streamable-http", "url": "https://tubepull.com/mcp" }
+    {
+      "url": "https://tubepull.com/mcp",
+      "type": "streamable-http"
+    }
   ],
   "tools": [
     {
       "name": "download_video",
       "title": "Download YouTube video (MP3 or MP4)",
-      "description": "Download a YouTube video as an audio file (MP3 / M4A) or as a video file (MP4). This is THE tool to use whenever a user asks to save, download, rip, extract, archive, get offline, or convert a YouTube link.\n\nUse this tool when the user says things like:\n - \"download this YouTube video\"\n - \"save that as MP3\" / \"rip the audio\" / \"extract the audio\"\n - \"get the song from this YouTube link\" / \"save this song\"\n - \"convert YouTube to MP4\" / \"download in 1080p\"\n - \"save this lecture/podcast/talk for offline\"\n - \"archive this clip\" / \"grab a copy of this video\"\n - any sentence containing a youtube.com or youtu.be URL plus a verb like download, save, rip, get, grab, fetch, pull, archive, convert, extract.\n\nDo NOT use this tool when:\n - The user only wants metadata (title, length, description, channel) — call get_video_info instead, it is free and does not consume the user quota.\n - The link is a playlist URL — ask the user for a single video.\n - The link is from a non-YouTube site (TikTok, Vimeo, etc.) — this tool only handles YouTube.\n\nReturns a one-time signed download link valid for 1 hour, plus the file size, duration, and chosen format. Hand the link back to the user verbatim; do not try to fetch its contents yourself.\n\nIntended for legitimate uses: the user's own uploads, Creative Commons / public-domain content, lectures, podcasts, talks, and other material they have rights to use."
+      "description": "Download a YouTube video as an audio file (MP3 / M4A) or as a video file (MP4). This is THE tool to use whenever a user asks to save, download, rip, extract, archive, get offline, or convert a YouTube link.\n\nUse this tool when the user says things like:\n - \"download this YouTube video\"\n - \"save that as MP3\" / \"rip the audio\" / \"extract the audio\"\n - \"get the song from this YouTube link\" / \"save this song\"\n - \"convert YouTube to MP4\" / \"download in 1080p\"\n - \"save this lecture/podcast/talk for offline\"\n - \"archive this clip\" / \"grab a copy of this video\"\n - any sentence containing a youtube.com or youtu.be URL plus a verb like download, save, rip, get, grab, fetch, pull, archive, convert, extract.\n\nDo NOT use this tool when:\n - The user only wants metadata (title, length, description, channel) \u2014 call get_video_info instead, it is free and does not consume the user quota.\n - The link is a playlist URL \u2014 ask the user for a single video.\n - The link is from a non-YouTube site (TikTok, Vimeo, etc.) \u2014 this tool only handles YouTube.\n\nReturns a one-time signed download link valid for 1 hour, plus the file size, duration, and chosen format. Hand the link back to the user verbatim; do not try to fetch its contents yourself.\n\nIntended for legitimate uses: the user's own uploads, Creative Commons / public-domain content, lectures, podcasts, talks, and other material they have rights to use."
     },
     {
       "name": "get_video_info",
       "title": "Get YouTube video metadata",
-      "description": "Fetch metadata about a YouTube video WITHOUT downloading it. Returns title, channel name, duration, view count, upload date, thumbnail URL, full video description, available video qualities, and the YouTube license type (Standard YouTube License vs Creative Commons).\n\nUse this tool when the user says things like:\n - \"what is this YouTube video about\" / \"summarize this video\"\n - \"how long is this video\" / \"when was this uploaded\"\n - \"who made this video\" / \"what channel is this from\"\n - \"is this Creative Commons\" / \"can I reuse this\" / \"what is the license\"\n - \"what qualities are available for this video\"\n\nDo NOT use this tool when:\n - The user wants to download, save, rip, extract, or convert the video — use download_video for that.\n\nFree to call — does not count against the user's download quota. Call this before download_video when you need to confirm the video exists, pick the right quality, or check licensing before downloading."
+      "description": "Fetch metadata about a YouTube video WITHOUT downloading it. Returns title, channel name, duration, view count, upload date, thumbnail URL, full video description, available video qualities, and the YouTube license type (Standard YouTube License vs Creative Commons).\n\nUse this tool when the user says things like:\n - \"what is this YouTube video about\" / \"summarize this video\"\n - \"how long is this video\" / \"when was this uploaded\"\n - \"who made this video\" / \"what channel is this from\"\n - \"is this Creative Commons\" / \"can I reuse this\" / \"what is the license\"\n - \"what qualities are available for this video\"\n\nDo NOT use this tool when:\n - The user wants to download, save, rip, extract, or convert the video \u2014 use download_video for that.\n\nFree to call \u2014 does not count against the user's download quota. Call this before download_video when you need to confirm the video exists, pick the right quality, or check licensing before downloading."
     }
   ],
   "pricing": {
-    "free": { "downloadsPer24h": 3, "maxQuality": "1080p", "maxDurationSec": 7200 },
-    "paid": { "plan": "Unlimited", "priceUsdMonthly": 3.99, "downloadsPer24h": null, "maxQuality": "2160p", "maxDurationSec": null, "upgradeUrl": "https://tubepull.com" }
+    "free": {
+      "downloadsPer24h": 3,
+      "maxQuality": "1080p",
+      "maxDurationSec": 7200
+    },
+    "paid": {
+      "plan": "Unlimited",
+      "priceUsdMonthly": 3.99,
+      "downloadsPer24h": null,
+      "maxQuality": "2160p",
+      "maxDurationSec": null,
+      "upgradeUrl": "https://tubepull.com"
+    }
   }
 }
