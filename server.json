@@ -3,7 +3,7 @@
   "name": "io.github.miketwalker/tubepull",
   "title": "TubePull",
   "version": "1.2.0",
-  "description": "Download YouTube videos as MP3, M4A, or MP4 directly from any MCP-compatible AI assistant. Returns a one-time signed download link valid for 1 hour. Free tier: 3 downloads / 24h. Unlimited: $3.99 / mo.",
+  "description": "Download YouTube videos as MP3/M4A/MP4 from any MCP-compatible AI assistant. Free 3/day, $3.99/mo.",
   "websiteUrl": "https://tubepull.com",
   "repository": {
     "url": "https://github.com/miketwalker/tubepull-mcp",
