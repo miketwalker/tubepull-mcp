@@ -15,8 +15,8 @@
   "categories": ["media", "youtube", "downloader", "audio", "video"],
   "tags": ["youtube","youtube-downloader","mp3","mp4","audio-extraction","video-download","media","remote-mcp","hosted"],
   "icons": [
-    { "src": "https://tubepull.com/assets/brand/favicon-192.png", "mimeType": "image/png", "sizes": "192x192" },
-    { "src": "https://tubepull.com/assets/brand/favicon-32.png",  "mimeType": "image/png", "sizes": "32x32"  }
+    { "src": "https://tubepull.com/assets/brand/favicon-192.png", "mimeType": "image/png", "sizes": ["192x192"] },
+    { "src": "https://tubepull.com/assets/brand/favicon-32.png",  "mimeType": "image/png", "sizes": ["32x32"]  }
   ],
   "remotes": [
     { "transport": "streamable-http", "url": "https://tubepull.com/mcp" }
