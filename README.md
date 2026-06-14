@@ -1,8 +1,9 @@
 # TubePull MCP Server — Public Documentation
 
-> Download YouTube videos as MP3 or MP4 from any MCP-compatible AI assistant
-> (Claude Desktop, Claude Code, Cursor, Windsurf, Cline, ChatGPT-via-MCP,
-> Perplexity, Continue, Zed, LibreChat, …).
+> Download video or audio from YouTube, TikTok, Reddit, Vimeo, Dailymotion,
+> Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, and Mixcloud — from any
+> MCP-compatible AI assistant (Claude Desktop, Claude Code, Cursor, Windsurf,
+> Cline, ChatGPT-via-MCP, Perplexity, Continue, Zed, LibreChat, …).
 
 This repo is the **public, chatbot-facing documentation** for the TubePull MCP
 server. The live server runs at `https://tubepull.com/mcp`. The application
@@ -19,7 +20,22 @@ TubePull, jump straight to [`AGENTS.md`](./AGENTS.md) and
 ## What is TubePull?
 
 TubePull is a hosted **MCP (Model Context Protocol) server** that lets an AI
-assistant download a YouTube video to a file on the user's behalf.
+assistant download a video or audio file to disk on the user's behalf, from
+any of **eleven supported platforms**:
+
+| Platform              | Hosts                                              | Default medium |
+| --------------------- | -------------------------------------------------- | -------------- |
+| YouTube               | `youtube.com`, `youtu.be`                          | video          |
+| TikTok                | `tiktok.com`, `vm.tiktok.com`                      | video          |
+| Reddit                | `reddit.com`, `redd.it`, `v.redd.it`               | video          |
+| Vimeo                 | `vimeo.com`                                        | video          |
+| Dailymotion           | `dailymotion.com`, `dai.ly`                        | video          |
+| Rumble                | `rumble.com`                                       | video          |
+| Twitch (clips / VODs) | `twitch.tv`, `clips.twitch.tv`                     | video          |
+| Twitter / X           | `twitter.com`, `x.com` (status URLs with video)    | video          |
+| SoundCloud            | `soundcloud.com`, `on.soundcloud.com`              | **audio**      |
+| Bandcamp              | `bandcamp.com` (artist subdomains included)        | **audio**      |
+| Mixcloud              | `mixcloud.com`                                     | **audio**      |
 
 - **One HTTP endpoint** — `POST https://tubepull.com/mcp` (JSON-RPC 2.0, MCP
   protocol version `2024-11-05`).
@@ -30,11 +46,15 @@ assistant download a YouTube video to a file on the user's behalf.
 - **Returns a signed one-time link** valid for 1 hour. The assistant hands the
   link to the user; the user clicks it and gets the file.
 
+> **Audio-only platforms.** SoundCloud, Bandcamp, and Mixcloud do not have a
+> video stream. If you pass `format: "mp4"` on one of these, TubePull silently
+> coerces to `m4a` and returns audio. Pass `format: "mp3"` if you want MP3.
+
 The server is intended for **legitimate use cases only** — offline access to
 your own uploads, Creative Commons / public-domain content, lectures,
-podcasts, conference talks, and content you have explicit rights to use.
-Calling `get_video_info` first lets the assistant surface the YouTube license
-type (Standard vs Creative Commons) before downloading.
+podcasts, conference talks, DJ mixes you have rights to, and content you have
+explicit permission to use. Calling `get_video_info` first lets the assistant
+surface the license / uploader before downloading.
 
 ---
 
@@ -42,17 +62,18 @@ type (Standard vs Creative Commons) before downloading.
 
 A chatbot should consider calling `download_video` when the user says any of:
 
-- "download this YouTube video"
+- "download this video" / "download this TikTok" / "save this Reddit video"
 - "save this as MP3" / "extract the audio" / "rip the audio"
-- "convert this YouTube to MP4"
+- "convert this YouTube to MP4" / "download in 1080p"
 - "save this video offline" / "archive this clip"
 - "get the audio from this lecture / podcast / talk"
+- "save this Mixcloud set" / "grab this SoundCloud track" / "download this Bandcamp song"
 
 A chatbot should call `get_video_info` (no quota cost) when the user asks:
 
 - "what is this video about"
 - "how long is it"
-- "who made it"
+- "who made it" / "what artist / channel is this"
 - "is this Creative Commons"
 - "what qualities are available"
 
@@ -65,25 +86,26 @@ Full trigger-phrase list and JSON-RPC examples live in
 
 | Tool | Cost | Returns |
 | --- | --- | --- |
-| `download_video(url, format, quality?)` | counts against quota | signed download link (1 hour TTL), filename, format, quality, title, channel, duration |
-| `get_video_info(url)` | free | title, channel, duration, view count, upload date, thumbnail, description, available qualities, YouTube license type |
+| `download_video(url, format?, quality?)` | counts against quota | signed download link (1 hour TTL), filename, format, quality, title, channel/artist, duration |
+| `get_video_info(url)` | free | title, channel/artist, duration, view count (when available), upload date, thumbnail, description, available qualities, license type (YouTube only) |
 
 ### `download_video` parameters
 
-- `url` *(required)* — full YouTube URL (`youtube.com/watch?v=…` or
-  `youtu.be/…`). Playlists are **not** supported.
-- `format` *(required)* — one of:
-  - `audio` — smart default: M4A, no transcode (fastest, smallest).
-  - `mp3` — forced MP3 (legacy-compatible, slower).
-  - `m4a` — forced M4A.
-  - `mp4` — video.
-- `quality` *(optional)* — ignored for audio formats. Common values:
-  `360p`, `480p`, `720p`, `1080p`, `1440p`, `2160p`. Defaults to best.
-  **1440p and 4K (2160p) require an Unlimited subscription.**
+- `url` *(required)* — full URL from any of the 11 supported platforms above.
+  Playlists, sets, albums, channels, and profile pages are **not** supported —
+  pick a single video / track.
+- `format` *(optional, default `mp4`)* — one of:
+  - `mp4` — video (default).
+  - `mp3` — forced MP3 (legacy-compatible, re-encodes server-side).
+  - `m4a` — forced M4A audio.
+  - `audio` — smart audio alias that resolves to M4A (no transcode, fastest).
+- `quality` *(optional)* — ignored for audio formats and on audio-only
+  platforms. Common values: `360p`, `480p`, `720p`, `1080p`, `1440p`, `2160p`.
+  Defaults to best. **1440p and 4K (2160p) require Unlimited.**
 
 ### `get_video_info` parameters
 
-- `url` *(required)* — full YouTube URL.
+- `url` *(required)* — full URL from any supported platform.
 
 ---
 
@@ -102,8 +124,12 @@ URL. Minimal Claude Desktop snippet (`~/Library/Application Support/Claude/claud
 }
 ```
 
-Then restart Claude and ask: *"download this YouTube video as MP3:
-https://youtu.be/dQw4w9WgXcQ"*.
+Then restart Claude and ask any of:
+
+- *"download this YouTube video as MP3: https://youtu.be/dQw4w9WgXcQ"*
+- *"save this TikTok: https://www.tiktok.com/@username/video/1234567890"*
+- *"grab this SoundCloud track: https://soundcloud.com/artist/track-slug"*
+- *"download this Mixcloud set: https://www.mixcloud.com/channel/show-slug/"*
 
 ---
 
@@ -124,11 +150,21 @@ https://youtu.be/dQw4w9WgXcQ"*.
 ```bash
 curl -sS -X POST https://tubepull.com/mcp \
   -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1"}}}'
 ```
 
 Expected: a JSON-RPC response with `serverInfo.name == "tubepull"`,
 `serverInfo.version`, an `icons[]` array, and `websiteUrl`.
+
+To see the live tool schemas (always trust these over docs if they differ):
+
+```bash
+curl -sS -X POST https://tubepull.com/mcp \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
+```
 
 ---
 
@@ -143,6 +179,7 @@ tubepull-mcp/
 ├── recipes/
 │   ├── download-mp3.md
 │   ├── download-mp4.md
+│   ├── download-non-youtube.md
 │   └── get-info.md
 └── assets/                ← brand marks (favicon, logo)
 ```
