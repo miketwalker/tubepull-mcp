@@ -1,17 +1,16 @@
 # Recipe: download as MP4 (video)
 
-Works on every video platform TubePull supports: YouTube, TikTok, Reddit,
-Vimeo, Dailymotion, Rumble, Twitch, Twitter/X. Audio-only platforms
+Works on every video platform TubePull supports: YouTube, TikTok, Vimeo,
+Dailymotion, Twitter/X. Audio-only platforms
 (SoundCloud, Bandcamp, Mixcloud) ignore `format: "mp4"` and return audio
 instead — see `download-mp3.md` for those.
 
 ## Trigger phrases
 
 - "download this video" / "save this video"
-- "save this YouTube as MP4" / "save this TikTok" / "save this Reddit video"
+- "save this YouTube as MP4" / "save this TikTok" / "download this Vimeo video"
 - "save this clip offline" / "archive this video"
 - "give me this in 1080p" / "download in 4K"
-- "save this Twitch clip" / "download this Vimeo video"
 
 ## Choosing a quality
 
