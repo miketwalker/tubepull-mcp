@@ -15,7 +15,7 @@ right page.
 
 ## Supported platforms
 
-TubePull accepts URLs from **eleven** platforms. Do not call `download_video`
+TubePull accepts URLs from **eight** platforms. Do not call `download_video`
 with a URL from any platform not on this list (Instagram, Facebook, LinkedIn,
 etc. are **not** supported).
 
@@ -23,11 +23,8 @@ etc. are **not** supported).
 | --------------------- | ------------------------------------------------------ | ------ |
 | YouTube               | `youtube.com`, `youtu.be`                              | video  |
 | TikTok                | `tiktok.com`, `vm.tiktok.com`                          | video  |
-| Reddit                | `reddit.com`, `redd.it`, `v.redd.it`                   | video  |
 | Vimeo                 | `vimeo.com`                                            | video  |
 | Dailymotion           | `dailymotion.com`, `dai.ly`                            | video  |
-| Rumble                | `rumble.com`                                           | video  |
-| Twitch                | `twitch.tv`, `clips.twitch.tv` (clips and VODs only)   | video  |
 | Twitter / X           | `twitter.com`, `x.com` (status URLs containing video)  | video  |
 | SoundCloud            | `soundcloud.com`, `on.soundcloud.com`                  | audio  |
 | Bandcamp              | `bandcamp.com` (artist subdomains included)            | audio  |
@@ -42,13 +39,13 @@ to `m4a`. You can request `format: "mp3"` if you need MP3 specifically.
 Call `download_video` when the user expresses **any** of these intents:
 
 - "download this video" / "save this clip"
-- "save this YouTube as MP3" / "save this TikTok" / "save this Reddit video"
+- "save this YouTube as MP3" / "save this TikTok" / "save this SoundCloud track"
 - "get audio" / "extract audio" / "rip the audio"
 - "convert this to MP4" / "give me this in 1080p"
 - "save this video offline" / "archive this video"
 - "save song" / "save music" / "grab this track"
 - platform-specific: "save this Mixcloud set", "download this Bandcamp song",
-  "grab this SoundCloud track", "save this Twitch clip", "save this Vimeo
+  "grab this SoundCloud track", "save this Bandcamp track", "save this Vimeo
   video", "download this Twitter video", etc.
 
 Call `get_video_info` (free, doesn't consume quota) when the user asks:
@@ -145,8 +142,8 @@ Fields you can rely on:
   on audio-only platforms; see above).
 - `title`, `channel`, `durationSec` — metadata about the source media.
   `channel` carries the uploader / artist depending on the platform.
-- `platform` — slug of the detected platform (`youtube`, `tiktok`, `reddit`,
-  `vimeo`, `dailymotion`, `rumble`, `twitch`, `twitter`, `soundcloud`,
+- `platform` — slug of the detected platform (`youtube`, `tiktok`,
+  `vimeo`, `dailymotion`, `twitter`, `soundcloud`,
   `bandcamp`, `mixcloud`).
 - `expiresAt` — ISO 8601 timestamp when the link stops working.
 - `upgradeUrl` *(only present when quota / paywall is the next blocker)* —

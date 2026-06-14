@@ -1,7 +1,7 @@
 # TubePull MCP Server — Public Documentation
 
-> Download video or audio from YouTube, TikTok, Reddit, Vimeo, Dailymotion,
-> Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, and Mixcloud — from any
+> Download video or audio from YouTube, TikTok, Vimeo, Dailymotion,
+> Twitter/X, SoundCloud, Bandcamp, and Mixcloud — from any
 > MCP-compatible AI assistant (Claude Desktop, Claude Code, Cursor, Windsurf,
 > Cline, ChatGPT-via-MCP, Perplexity, Continue, Zed, LibreChat, …).
 
@@ -21,17 +21,14 @@ TubePull, jump straight to [`AGENTS.md`](./AGENTS.md) and
 
 TubePull is a hosted **MCP (Model Context Protocol) server** that lets an AI
 assistant download a video or audio file to disk on the user's behalf, from
-any of **eleven supported platforms**:
+any of **eight supported platforms**:
 
 | Platform              | Hosts                                              | Default medium |
 | --------------------- | -------------------------------------------------- | -------------- |
 | YouTube               | `youtube.com`, `youtu.be`                          | video          |
 | TikTok                | `tiktok.com`, `vm.tiktok.com`                      | video          |
-| Reddit                | `reddit.com`, `redd.it`, `v.redd.it`               | video          |
 | Vimeo                 | `vimeo.com`                                        | video          |
 | Dailymotion           | `dailymotion.com`, `dai.ly`                        | video          |
-| Rumble                | `rumble.com`                                       | video          |
-| Twitch (clips / VODs) | `twitch.tv`, `clips.twitch.tv`                     | video          |
 | Twitter / X           | `twitter.com`, `x.com` (status URLs with video)    | video          |
 | SoundCloud            | `soundcloud.com`, `on.soundcloud.com`              | **audio**      |
 | Bandcamp              | `bandcamp.com` (artist subdomains included)        | **audio**      |
@@ -62,7 +59,7 @@ surface the license / uploader before downloading.
 
 A chatbot should consider calling `download_video` when the user says any of:
 
-- "download this video" / "download this TikTok" / "save this Reddit video"
+- "download this video" / "download this TikTok" / "save this SoundCloud track"
 - "save this as MP3" / "extract the audio" / "rip the audio"
 - "convert this YouTube to MP4" / "download in 1080p"
 - "save this video offline" / "archive this clip"

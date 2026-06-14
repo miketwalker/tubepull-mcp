@@ -1,7 +1,7 @@
 # Recipe: download as MP3 / audio
 
-Works on every supported platform — YouTube, TikTok, Reddit, Vimeo,
-Dailymotion, Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, Mixcloud — but
+Works on every supported platform — YouTube, TikTok, Vimeo, Dailymotion,
+Twitter/X, SoundCloud, Bandcamp, Mixcloud — but
 is the most common ask for audio-only platforms (SoundCloud, Bandcamp,
 Mixcloud) and for music videos on YouTube.
 

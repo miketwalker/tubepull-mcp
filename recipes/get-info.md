@@ -65,15 +65,15 @@ track rather than asking you to download it, or when you need to decide on a
 
 Not every platform exposes every field. Treat fields as best-effort:
 
-| Field         | YouTube | TikTok | Reddit | Vimeo | Dailymotion | Rumble | Twitch | Twitter | SoundCloud | Bandcamp | Mixcloud |
-| ------------- | ------- | ------ | ------ | ----- | ----------- | ------ | ------ | ------- | ---------- | -------- | -------- |
-| `title`       | ✓       | ✓      | ✓      | ✓     | ✓           | ✓      | ✓      | ✓       | ✓          | ✓        | ✓        |
-| `channel`     | ✓       | ✓      | ✓      | ✓     | ✓           | ✓      | ✓      | ✓       | ✓          | ✓        | ✓        |
-| `durationSec` | ✓       | ✓      | ✓      | ✓     | ✓           | ✓      | ✓      | ✓       | ✓          | ✓        | ✓        |
-| `viewCount`   | ✓       | ✓      | ~      | ✓     | ✓           | ✓      | ~      | ~       | ✓          | ~        | ✓        |
-| `uploadDate`  | ✓       | ✓      | ✓      | ✓     | ✓           | ✓      | ✓      | ✓       | ✓          | ✓        | ✓        |
-| `qualities[]` | ✓       | ✓      | ✓      | ✓     | ✓           | ✓      | ✓      | ✓       | ✗ (audio)  | ✗ (audio)| ✗ (audio)|
-| `license`     | ✓       | ✗      | ✗      | ✗     | ✗           | ✗      | ✗      | ✗       | ✗          | ✗        | ✗        |
+| Field | YouTube | TikTok | Vimeo | Dailymotion | Twitter | SoundCloud | Bandcamp | Mixcloud |
+| ------------- | ------- | ------ | ----- | ----------- | ------- | ---------- | -------- | -------- |
+| `title` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `channel` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `durationSec` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `viewCount` | ✓ | ✓ | ✓ | ✓ | ~ | ✓ | ~ | ✓ |
+| `uploadDate` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `qualities[]` | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ (audio) | ✗ (audio) | ✗ (audio) |
+| `license` | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
 
 `~` = sometimes available, sometimes not.
 

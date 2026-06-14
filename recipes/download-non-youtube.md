@@ -1,6 +1,6 @@
 # Recipe: download from non-YouTube platforms
 
-TubePull supports ten platforms beyond YouTube. The MCP surface is identical
+TubePull supports seven platforms beyond YouTube. The MCP surface is identical
 to YouTube — same `download_video` tool, same `url` argument. Just pass the
 URL and TubePull detects the platform automatically.
 
@@ -9,12 +9,8 @@ URL and TubePull detects the platform automatically.
 | Platform              | Example URL                                                                  | Medium |
 | --------------------- | ---------------------------------------------------------------------------- | ------ |
 | TikTok                | `https://www.tiktok.com/@username/video/1234567890`                          | video  |
-| Reddit                | `https://www.reddit.com/r/sub/comments/abc/title/`                           | video  |
 | Vimeo                 | `https://vimeo.com/123456789`                                                | video  |
 | Dailymotion           | `https://www.dailymotion.com/video/x7tgad0`                                  | video  |
-| Rumble                | `https://rumble.com/v1abc-title.html`                                        | video  |
-| Twitch (clip)         | `https://clips.twitch.tv/AwkwardHelplessSalamanderSwiftRage`                 | video  |
-| Twitch (VOD)          | `https://www.twitch.tv/videos/1234567890`                                    | video  |
 | Twitter / X           | `https://twitter.com/user/status/1234567890` (status must contain a video)   | video  |
 | SoundCloud            | `https://soundcloud.com/artist/track-slug`                                   | audio  |
 | Bandcamp              | `https://artist.bandcamp.com/track/song-slug`                                | audio  |
@@ -26,9 +22,7 @@ The chatbot should pick `download_video` whenever the user says any download
 verb plus a URL from one of these hosts. Examples:
 
 - "save this TikTok"
-- "download this Reddit video"
 - "grab this Vimeo"
-- "save this Twitch clip"
 - "download this Twitter video"
 - "rip this SoundCloud track"
 - "save this Bandcamp song"
@@ -51,22 +45,6 @@ verb plus a URL from one of these hosts. Examples:
 ```
 
 Successful response includes `platform: "tiktok"` in `structuredContent`.
-
-## Example: Reddit
-
-```json
-{
-  "jsonrpc": "2.0",
-  "id": 101,
-  "method": "tools/call",
-  "params": {
-    "name": "download_video",
-    "arguments": {
-      "url": "https://www.reddit.com/r/funny/comments/abc123/some_title/"
-    }
-  }
-}
-```
 
 ## Example: SoundCloud (audio-only platform)
 
@@ -112,7 +90,7 @@ response.
 
 | `failure_reason`        | What to tell the user                                                      |
 | ----------------------- | -------------------------------------------------------------------------- |
-| `unsupported_platform`  | "TubePull doesn't support that site. Supported: YouTube, TikTok, Reddit, Vimeo, Dailymotion, Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, Mixcloud." |
+| `unsupported_platform`  | "TubePull doesn't support that site. Supported: YouTube, TikTok, Vimeo, Dailymotion, Twitter/X, SoundCloud, Bandcamp, Mixcloud." |
 | `unsupported_url_shape` | "That looks like a profile / playlist / channel page. Send a single track or video URL." |
 | `probe_error`           | Likely region-locked, private, or removed. Tell the user.                  |
 | `fetch_error`           | Suggest retrying or trying a different quality.                            |
