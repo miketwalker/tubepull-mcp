@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.miketwalker/tubepull",
   "title": "TubePull",
-  "version": "1.2.1",
-  "description": "Download YouTube videos as MP3/M4A/MP4 from any MCP-compatible AI assistant. Free 3/day, $3.99/mo.",
+  "version": "1.3.0",
+  "description": "Download video/audio from YouTube, TikTok, Reddit, Vimeo, SoundCloud, Mixcloud + 5 more. $3.99/mo.",
   "websiteUrl": "https://tubepull.com",
   "repository": {
     "url": "https://github.com/miketwalker/tubepull-mcp",
@@ -17,14 +17,28 @@
   "license": "MIT",
   "categories": [
     "media",
-    "youtube",
     "downloader",
     "audio",
     "video"
   ],
   "tags": [
     "youtube",
+    "tiktok",
+    "reddit",
+    "vimeo",
+    "dailymotion",
+    "rumble",
+    "twitch",
+    "twitter",
+    "soundcloud",
+    "bandcamp",
+    "mixcloud",
     "youtube-downloader",
+    "tiktok-downloader",
+    "reddit-downloader",
+    "vimeo-downloader",
+    "soundcloud-downloader",
+    "mixcloud-downloader",
     "mp3",
     "mp4",
     "audio-extraction",
@@ -58,13 +72,13 @@
   "tools": [
     {
       "name": "download_video",
-      "title": "Download YouTube video (MP3 or MP4)",
-      "description": "Download a YouTube video as an audio file (MP3 / M4A) or as a video file (MP4). This is THE tool to use whenever a user asks to save, download, rip, extract, archive, get offline, or convert a YouTube link.\n\nUse this tool when the user says things like:\n - \"download this YouTube video\"\n - \"save that as MP3\" / \"rip the audio\" / \"extract the audio\"\n - \"get the song from this YouTube link\" / \"save this song\"\n - \"convert YouTube to MP4\" / \"download in 1080p\"\n - \"save this lecture/podcast/talk for offline\"\n - \"archive this clip\" / \"grab a copy of this video\"\n - any sentence containing a youtube.com or youtu.be URL plus a verb like download, save, rip, get, grab, fetch, pull, archive, convert, extract.\n\nDo NOT use this tool when:\n - The user only wants metadata (title, length, description, channel) \u2014 call get_video_info instead, it is free and does not consume the user quota.\n - The link is a playlist URL \u2014 ask the user for a single video.\n - The link is from a non-YouTube site (TikTok, Vimeo, etc.) \u2014 this tool only handles YouTube.\n\nReturns a one-time signed download link valid for 1 hour, plus the file size, duration, and chosen format. Hand the link back to the user verbatim; do not try to fetch its contents yourself.\n\nIntended for legitimate uses: the user's own uploads, Creative Commons / public-domain content, lectures, podcasts, talks, and other material they have rights to use."
+      "title": "Download video or audio (MP4 / MP3 / M4A)",
+      "description": "Download a video or audio file from any supported platform: YouTube, TikTok, Reddit, Vimeo, Dailymotion, Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, or Mixcloud. Output is MP4 (video, default) or MP3 / M4A (audio). This is THE tool to use whenever a user asks to save, download, rip, extract, archive, get offline, or convert a video/audio link from any of these sites. IMPORTANT: the `format` argument defaults to `mp4` (video). Only pass an audio format (mp3 / m4a / audio) when the user explicitly says audio, MP3, music, song, or \"rip / extract the audio\". Audio-only platforms (SoundCloud, Bandcamp, Mixcloud) always produce audio regardless of `format`.\n\nUse this tool when the user says things like:\n - \"download this video\" / \"download this TikTok\" / \"save this Reddit video\"\n - \"save that as MP3\" / \"rip the audio\" / \"extract the audio\"\n - \"get the song from this SoundCloud link\" / \"save this Mixcloud set\"\n - \"convert this YouTube video to MP4\" / \"download in 1080p\"\n - \"save this lecture/podcast/talk for offline\"\n - \"archive this clip\" / \"grab a copy of this video\"\n - any sentence containing a youtube.com, youtu.be, tiktok.com, reddit.com, vimeo.com, dailymotion.com, rumble.com, twitch.tv, twitter.com, x.com, soundcloud.com, bandcamp.com, or mixcloud.com URL plus a verb like download, save, rip, get, grab, fetch, pull, archive, convert, extract.\n\nDo NOT use this tool when:\n - The user only wants metadata (title, length, description, channel) \u2014 call get_video_info instead, it is free and does not consume the user quota.\n - The link is a playlist / set / album / channel URL \u2014 ask the user for a single track/video.\n - The link is from a platform not in the supported list above (e.g. Instagram, Facebook, LinkedIn).\n\nReturns a one-time signed download link valid for 1 hour, plus the file size, duration, and chosen format. Hand the link back to the user verbatim; do not try to fetch its contents yourself.\n\nIntended for legitimate uses: the user's own uploads, Creative Commons / public-domain content, lectures, podcasts, talks, and other material they have rights to use."
     },
     {
       "name": "get_video_info",
-      "title": "Get YouTube video metadata",
-      "description": "Fetch metadata about a YouTube video WITHOUT downloading it. Returns title, channel name, duration, view count, upload date, thumbnail URL, full video description, available video qualities, and the YouTube license type (Standard YouTube License vs Creative Commons).\n\nUse this tool when the user says things like:\n - \"what is this YouTube video about\" / \"summarize this video\"\n - \"how long is this video\" / \"when was this uploaded\"\n - \"who made this video\" / \"what channel is this from\"\n - \"is this Creative Commons\" / \"can I reuse this\" / \"what is the license\"\n - \"what qualities are available for this video\"\n\nDo NOT use this tool when:\n - The user wants to download, save, rip, extract, or convert the video \u2014 use download_video for that.\n\nFree to call \u2014 does not count against the user's download quota. Call this before download_video when you need to confirm the video exists, pick the right quality, or check licensing before downloading."
+      "title": "Get video or audio metadata",
+      "description": "Fetch metadata about a video or audio track WITHOUT downloading it. Works on every platform download_video supports: YouTube, TikTok, Reddit, Vimeo, Dailymotion, Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, and Mixcloud. Returns title, uploader/channel name, duration, view count (when available), upload date, thumbnail URL, description, available video qualities, and (for YouTube) the license type.\n\nUse this tool when the user says things like:\n - \"what is this video about\" / \"summarize this video\"\n - \"how long is this track\" / \"when was this uploaded\"\n - \"who made this\" / \"what channel/artist is this from\"\n - \"is this Creative Commons\" / \"can I reuse this\" / \"what is the license\"\n - \"what qualities are available for this video\"\n\nDo NOT use this tool when:\n - The user wants to download, save, rip, extract, or convert the video/audio \u2014 use download_video for that.\n\nFree to call \u2014 does not count against the user's download quota. Call this before download_video when you need to confirm the video exists, pick the right quality, or check licensing before downloading."
     }
   ],
   "pricing": {

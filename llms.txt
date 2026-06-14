@@ -1,6 +1,6 @@
 # TubePull
 
-> TubePull is a hosted Model Context Protocol (MCP) server that lets an AI assistant download a YouTube video to a file (MP3, M4A, or MP4) on behalf of the user. Free tier is 3 downloads per 24 hours; Unlimited is $3.99/month and unlocks 1440p, 4K, and videos longer than 2 hours.
+> TubePull is a hosted Model Context Protocol (MCP) server that lets an AI assistant download a video or audio file (MP3, M4A, or MP4) on behalf of the user from eleven supported platforms: YouTube, TikTok, Reddit, Vimeo, Dailymotion, Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, and Mixcloud. Free tier is 3 downloads per 24 hours; Unlimited is $3.99/month and unlocks 1440p, 4K, and videos longer than 2 hours.
 
 The server is a single HTTP endpoint that speaks JSON-RPC 2.0:
 
@@ -9,14 +9,17 @@ The server is a single HTTP endpoint that speaks JSON-RPC 2.0:
 - Server name: `tubepull`
 - Tools: `download_video`, `get_video_info`
 
-Use `get_video_info` (free, does not count against quota) to inspect a video's
-title, channel, duration, available qualities, and YouTube license type.
-Use `download_video` to return a signed one-time download link valid for 1
-hour.
+Use `get_video_info` (free, does not count against quota) to inspect a
+title, channel/artist, duration, available qualities, and (for YouTube)
+license type. Use `download_video` to return a signed one-time download link
+valid for 1 hour.
+
+Audio-only platforms (SoundCloud, Bandcamp, Mixcloud) produce audio regardless
+of the requested `format`; `mp4` is silently coerced to `m4a`.
 
 ## Docs
 
-- [README](https://github.com/miketwalker/tubepull-mcp/blob/main/README.md): Overview, quick start, pricing.
+- [README](https://github.com/miketwalker/tubepull-mcp/blob/main/README.md): Overview, supported platforms, quick start, pricing.
 - [AGENTS.md](https://github.com/miketwalker/tubepull-mcp/blob/main/AGENTS.md): Explicit "how to call this" recipes for AI agents.
 - [server.json](https://github.com/miketwalker/tubepull-mcp/blob/main/server.json): MCP registry manifest.
 
@@ -24,6 +27,7 @@ hour.
 
 - [Download as MP3](https://github.com/miketwalker/tubepull-mcp/blob/main/recipes/download-mp3.md): User says "save this as MP3" or "extract the audio".
 - [Download as MP4](https://github.com/miketwalker/tubepull-mcp/blob/main/recipes/download-mp4.md): User says "save this video" or "download in 1080p".
+- [Download from non-YouTube platforms](https://github.com/miketwalker/tubepull-mcp/blob/main/recipes/download-non-youtube.md): TikTok, Reddit, Vimeo, Dailymotion, Rumble, Twitch, Twitter/X, SoundCloud, Bandcamp, Mixcloud.
 - [Get video info](https://github.com/miketwalker/tubepull-mcp/blob/main/recipes/get-info.md): User asks "what is this video about" or "is this Creative Commons".
 
 ## Optional
