@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.miketwalker/tubepull",
   "title": "TubePull",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Download video/audio from YouTube, TikTok, Vimeo, SoundCloud, Mixcloud + 3 more. $3.99/mo.",
   "websiteUrl": "https://tubepull.com",
   "repository": {
@@ -43,6 +43,7 @@
     "remote-mcp",
     "hosted"
   ],
+  "icon": "https://tubepull.com/assets/brand/favicon-192.png",
   "icons": [
     {
       "src": "https://tubepull.com/assets/brand/favicon-192.png",
@@ -69,12 +70,145 @@
     {
       "name": "download_video",
       "title": "Download video or audio (MP4 / MP3 / M4A)",
-      "description": "Download a video or audio file from any supported platform: YouTube, TikTok, Vimeo, Dailymotion, Twitter/X, SoundCloud, Bandcamp, or Mixcloud. Output is MP4 (video, default) or MP3 / M4A (audio). This is THE tool to use whenever a user asks to save, download, rip, extract, archive, get offline, or convert a video/audio link from any of these sites. IMPORTANT: the `format` argument defaults to `mp4` (video). Only pass an audio format (mp3 / m4a / audio) when the user explicitly says audio, MP3, music, song, or \"rip / extract the audio\". Audio-only platforms (SoundCloud, Bandcamp, Mixcloud) always produce audio regardless of `format`.\n\nUse this tool when the user says things like:\n - \"download this video\" / \"download this TikTok\" / \"save this SoundCloud track\"\n - \"save that as MP3\" / \"rip the audio\" / \"extract the audio\"\n - \"get the song from this SoundCloud link\" / \"save this Mixcloud set\"\n - \"convert this YouTube video to MP4\" / \"download in 1080p\"\n - \"save this lecture/podcast/talk for offline\"\n - \"archive this clip\" / \"grab a copy of this video\"\n - any sentence containing a youtube.com, youtu.be, tiktok.com, vimeo.com, dailymotion.com, twitter.com, x.com, soundcloud.com, bandcamp.com, or mixcloud.com URL plus a verb like download, save, rip, get, grab, fetch, pull, archive, convert, extract.\n\nDo NOT use this tool when:\n - The user only wants metadata (title, length, description, channel) \u2014 call get_video_info instead, it is free and does not consume the user quota.\n - The link is a playlist / set / album / channel URL \u2014 ask the user for a single track/video.\n - The link is from a platform not in the supported list above (e.g. Instagram, Facebook, LinkedIn).\n\nReturns a one-time signed download link valid for 1 hour, plus the file size, duration, and chosen format. Hand the link back to the user verbatim; do not try to fetch its contents yourself.\n\nIntended for legitimate uses: the user's own uploads, Creative Commons / public-domain content, lectures, podcasts, talks, and other material they have rights to use."
+      "description": "Download a video or audio file from any supported platform: YouTube, TikTok, Vimeo, Dailymotion, Twitter/X, SoundCloud, Bandcamp, or Mixcloud. Output is MP4 (video, default) or MP3 / M4A (audio). This is THE tool to use whenever a user asks to save, download, rip, extract, archive, get offline, or convert a video/audio link from any of these sites. IMPORTANT: the `format` argument defaults to `mp4` (video). Only pass an audio format (mp3 / m4a / audio) when the user explicitly says audio, MP3, music, song, or \"rip / extract the audio\". Audio-only platforms (SoundCloud, Bandcamp, Mixcloud) always produce audio regardless of `format`.\n\nUse this tool when the user says things like:\n - \"download this video\" / \"download this TikTok\" / \"save this SoundCloud track\"\n - \"save that as MP3\" / \"rip the audio\" / \"extract the audio\"\n - \"get the song from this SoundCloud link\" / \"save this Mixcloud set\"\n - \"convert this YouTube video to MP4\" / \"download in 1080p\"\n - \"save this lecture/podcast/talk for offline\"\n - \"archive this clip\" / \"grab a copy of this video\"\n - any sentence containing a youtube.com, youtu.be, tiktok.com, vimeo.com, dailymotion.com, twitter.com, x.com, soundcloud.com, bandcamp.com, or mixcloud.com URL plus a verb like download, save, rip, get, grab, fetch, pull, archive, convert, extract.\n\nDo NOT use this tool when:\n - The user only wants metadata (title, length, description, channel) \u2014 call get_video_info instead, it is free and does not consume the user quota.\n - The link is a playlist / set / album / channel URL \u2014 ask the user for a single track/video.\n - The link is from a platform not in the supported list above (e.g. Instagram, Facebook, LinkedIn).\n\nReturns a one-time signed download link valid for 1 hour, plus the file size, duration, and chosen format. Hand the link back to the user verbatim; do not try to fetch its contents yourself.\n\nIntended for legitimate uses: the user's own uploads, Creative Commons / public-domain content, lectures, podcasts, talks, and other material they have rights to use.",
+      "icons": [
+        {
+          "src": "https://tubepull.com/assets/brand/favicon-192.png",
+          "mimeType": "image/png",
+          "sizes": ["192x192"]
+        }
+      ],
+      "annotations": {
+        "title": "Download video or audio (MP4 / MP3 / M4A)",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Full URL from any supported platform: youtube.com / youtu.be, tiktok.com, vimeo.com, dailymotion.com, twitter.com / x.com (status with video), soundcloud.com, bandcamp.com, or mixcloud.com. Pick a single video/track \u2014 playlists, sets, albums, channels, and profile pages are not supported."
+          },
+          "format": {
+            "type": "string",
+            "enum": ["mp4", "mp3", "m4a", "audio"],
+            "default": "mp4",
+            "description": "Output format. DEFAULT IS `mp4` (video). Only choose an audio format when the user explicitly asks for audio, MP3, music, song, or \"rip / extract the audio\". `mp4` = video. `mp3` = MP3 audio (legacy-compatible). `m4a` = M4A audio (faster, smaller). `audio` = smart audio alias that resolves to M4A."
+          },
+          "quality": {
+            "type": "string",
+            "enum": ["best", "360p", "480p", "720p", "1080p", "1440p", "4k"],
+            "default": "best",
+            "description": "Video quality. Ignored for audio formats. 1440p and 4k require an Unlimited subscription. Defaults to best."
+          }
+        },
+        "required": ["url"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "download_url": {
+            "type": "string",
+            "description": "One-time signed URL the user clicks to retrieve the file. Hand this to the user verbatim."
+          },
+          "expires_at": {
+            "type": "string",
+            "description": "ISO-8601 UTC timestamp after which the signed URL stops working (typically 1 hour from issue)."
+          },
+          "file_size_bytes": {
+            "type": "integer",
+            "description": "Final file size in bytes."
+          },
+          "format": {
+            "type": "string",
+            "description": "The format actually delivered (mp4, mp3, m4a)."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "description": "Duration of the source media in whole seconds."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the source video or track."
+          }
+        },
+        "required": ["download_url", "expires_at"]
+      }
     },
     {
       "name": "get_video_info",
       "title": "Get video or audio metadata",
-      "description": "Fetch metadata about a video or audio track WITHOUT downloading it. Works on every platform download_video supports: YouTube, TikTok, Vimeo, Dailymotion, Twitter/X, SoundCloud, Bandcamp, and Mixcloud. Returns title, uploader/channel name, duration, view count (when available), upload date, thumbnail URL, description, available video qualities, and (for YouTube) the license type.\n\nUse this tool when the user says things like:\n - \"what is this video about\" / \"summarize this video\"\n - \"how long is this track\" / \"when was this uploaded\"\n - \"who made this\" / \"what channel/artist is this from\"\n - \"is this Creative Commons\" / \"can I reuse this\" / \"what is the license\"\n - \"what qualities are available for this video\"\n\nDo NOT use this tool when:\n - The user wants to download, save, rip, extract, or convert the video/audio \u2014 use download_video for that.\n\nFree to call \u2014 does not count against the user's download quota. Call this before download_video when you need to confirm the video exists, pick the right quality, or check licensing before downloading."
+      "description": "Fetch metadata about a video or audio track WITHOUT downloading it. Works on every platform download_video supports: YouTube, TikTok, Vimeo, Dailymotion, Twitter/X, SoundCloud, Bandcamp, and Mixcloud. Returns title, uploader/channel name, duration, view count (when available), upload date, thumbnail URL, description, available video qualities, and (for YouTube) the license type.\n\nUse this tool when the user says things like:\n - \"what is this video about\" / \"summarize this video\"\n - \"how long is this track\" / \"when was this uploaded\"\n - \"who made this\" / \"what channel/artist is this from\"\n - \"is this Creative Commons\" / \"can I reuse this\" / \"what is the license\"\n - \"what qualities are available for this video\"\n\nDo NOT use this tool when:\n - The user wants to download, save, rip, extract, or convert the video/audio \u2014 use download_video for that.\n\nFree to call \u2014 does not count against the user's download quota. Call this before download_video when you need to confirm the video exists, pick the right quality, or check licensing before downloading.",
+      "icons": [
+        {
+          "src": "https://tubepull.com/assets/brand/favicon-192.png",
+          "mimeType": "image/png",
+          "sizes": ["192x192"]
+        }
+      ],
+      "annotations": {
+        "title": "Get video or audio metadata",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Full URL from any supported platform: youtube.com / youtu.be, tiktok.com, vimeo.com, dailymotion.com, twitter.com / x.com, soundcloud.com, bandcamp.com, or mixcloud.com."
+          }
+        },
+        "required": ["url"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Video / track title."
+          },
+          "channel": {
+            "type": "string",
+            "description": "Uploader, channel, or artist name (platform-dependent label)."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "description": "Duration in whole seconds."
+          },
+          "view_count": {
+            "type": "integer",
+            "description": "View / play count where the platform exposes it."
+          },
+          "upload_date": {
+            "type": "string",
+            "description": "ISO-8601 date the media was published."
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "description": "URL of the highest-resolution thumbnail available."
+          },
+          "description": {
+            "type": "string",
+            "description": "Full uploader-provided description (may be long)."
+          },
+          "available_qualities": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of selectable quality strings for download_video (e.g. [\"360p\",\"720p\",\"1080p\"])."
+          },
+          "license": {
+            "type": "string",
+            "description": "License label where exposed (YouTube only \u2014 \"Standard YouTube License\" or \"Creative Commons\")."
+          }
+        },
+        "required": ["title", "duration_seconds"]
+      }
     }
   ],
   "pricing": {
