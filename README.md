@@ -1,5 +1,7 @@
 # TubePull MCP Server — Public Documentation
 
+> 🌐 **Landing page**: [https://tubepull.com/mcp](https://tubepull.com/mcp) — features, pricing, FAQ, and one-click setup links for Claude, Perplexity, ChatGPT, and Cursor.
+
 > Download video or audio from YouTube, TikTok, Vimeo, Dailymotion,
 > Twitter/X, SoundCloud, Bandcamp, and Mixcloud — from any
 > MCP-compatible AI assistant (Claude Desktop, Claude Code, Cursor, Windsurf,
