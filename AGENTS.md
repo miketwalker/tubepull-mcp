@@ -15,7 +15,7 @@ right page.
 
 ## Supported platforms
 
-TubePull accepts URLs from **eight** platforms. Do not call `download_video`
+TubePull accepts URLs from **ten** platforms. Do not call `download_video`
 with a URL from any platform not on this list (Instagram, Facebook, LinkedIn,
 etc. are **not** supported).
 
@@ -23,9 +23,11 @@ etc. are **not** supported).
 | --------------------- | ------------------------------------------------------ | ------ |
 | YouTube               | `youtube.com`, `youtu.be`                              | video  |
 | TikTok                | `tiktok.com`, `vm.tiktok.com`                          | video  |
-| Vimeo                 | `vimeo.com`                                            | video  |
-| Dailymotion           | `dailymotion.com`, `dai.ly`                            | video  |
 | Twitter / X           | `twitter.com`, `x.com` (status URLs containing video)  | video  |
+| Vimeo                 | `vimeo.com`                                            | video  |
+| Twitch                | `twitch.tv`, `clips.twitch.tv` (VODs and clips)        | video  |
+| Streamable            | `streamable.com`                                       | video  |
+| Dailymotion           | `dailymotion.com`, `dai.ly`                            | video  |
 | SoundCloud            | `soundcloud.com`, `on.soundcloud.com`                  | audio  |
 | Bandcamp              | `bandcamp.com` (artist subdomains included)            | audio  |
 | Mixcloud              | `mixcloud.com`                                         | audio  |
@@ -46,7 +48,8 @@ Call `download_video` when the user expresses **any** of these intents:
 - "save song" / "save music" / "grab this track"
 - platform-specific: "save this Mixcloud set", "download this Bandcamp song",
   "grab this SoundCloud track", "save this Bandcamp track", "save this Vimeo
-  video", "download this Twitter video", etc.
+  video", "download this Twitter video", "save this Twitch clip", "download
+  this Streamable video", etc.
 
 Call `get_video_info` (free, doesn't consume quota) when the user asks:
 
@@ -144,7 +147,7 @@ Fields you can rely on:
   `channel` carries the uploader / artist depending on the platform.
 - `platform` — slug of the detected platform (`youtube`, `tiktok`,
   `vimeo`, `dailymotion`, `twitter`, `soundcloud`,
-  `bandcamp`, `mixcloud`).
+  `bandcamp`, `mixcloud`, `twitch`, `streamable`).
 - `expiresAt` — ISO 8601 timestamp when the link stops working.
 - `upgradeUrl` *(only present when quota / paywall is the next blocker)* —
   pre-attributed link to the upgrade page.
@@ -157,7 +160,7 @@ true`, the structured payload includes a `failure_reason`. Common values:
 | `failure_reason`        | What happened                                                  | Suggested user message                                                |
 | ----------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `missing_arg`           | required arg missing                                           | Ask the user for the URL.                                             |
-| `unsupported_platform`  | URL host is not one of the 11 supported platforms              | Tell the user which platforms TubePull supports.                      |
+| `unsupported_platform`  | URL host is not one of the ten supported platforms             | Tell the user which platforms TubePull supports.                      |
 | `no_video_id`           | YouTube URL had no extractable video ID                        | Ask for the canonical `watch?v=` link.                                |
 | `bad_format`            | format not in allowed enum                                     | Offer `mp4`, `mp3`, `m4a`, `audio`.                                   |
 | `unsupported_url_shape` | host matched but URL is a playlist / channel / profile / set   | Ask for a single video or track URL.                                  |
@@ -169,7 +172,7 @@ true`, the structured payload includes a `failure_reason`. Common values:
 
 > **Migration note.** TubePull previously returned `not_youtube` for any
 > non-YouTube URL. As of June 2026 that's replaced by `unsupported_platform`,
-> which only fires for hosts outside the 11-platform list. If you have
+> which only fires for hosts outside the ten-platform list. If you have
 > hardcoded `not_youtube` handling, update it.
 
 ### Quota behavior
