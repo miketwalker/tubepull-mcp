@@ -2,8 +2,8 @@
 
 > 🌐 **Landing page**: [https://tubepull.com/mcp](https://tubepull.com/mcp) — features, pricing, FAQ, and one-click setup links for Claude, Perplexity, ChatGPT, and Cursor.
 
-> Download video or audio from YouTube, TikTok, Vimeo, Dailymotion,
-> Twitter/X, SoundCloud, Bandcamp, and Mixcloud — from any
+> Download video or audio from YouTube, TikTok, Twitter/X, SoundCloud,
+> Vimeo, Twitch, Streamable, Bandcamp, Mixcloud, and Dailymotion — from any
 > MCP-compatible AI assistant (Claude Desktop, Claude Code, Cursor, Windsurf,
 > Cline, ChatGPT-via-MCP, Perplexity, Continue, Zed, LibreChat, …).
 
@@ -23,15 +23,17 @@ TubePull, jump straight to [`AGENTS.md`](./AGENTS.md) and
 
 TubePull is a hosted **MCP (Model Context Protocol) server** that lets an AI
 assistant download a video or audio file to disk on the user's behalf, from
-any of **eight supported platforms**:
+any of **ten supported platforms**:
 
 | Platform              | Hosts                                              | Default medium |
 | --------------------- | -------------------------------------------------- | -------------- |
 | YouTube               | `youtube.com`, `youtu.be`                          | video          |
 | TikTok                | `tiktok.com`, `vm.tiktok.com`                      | video          |
-| Vimeo                 | `vimeo.com`                                        | video          |
-| Dailymotion           | `dailymotion.com`, `dai.ly`                        | video          |
 | Twitter / X           | `twitter.com`, `x.com` (status URLs with video)    | video          |
+| Vimeo                 | `vimeo.com`                                        | video          |
+| Twitch                | `twitch.tv`, `clips.twitch.tv` (VODs and clips)    | video          |
+| Streamable            | `streamable.com`                                   | video          |
+| Dailymotion           | `dailymotion.com`, `dai.ly`                        | video          |
 | SoundCloud            | `soundcloud.com`, `on.soundcloud.com`              | **audio**      |
 | Bandcamp              | `bandcamp.com` (artist subdomains included)        | **audio**      |
 | Mixcloud              | `mixcloud.com`                                     | **audio**      |
@@ -67,6 +69,7 @@ A chatbot should consider calling `download_video` when the user says any of:
 - "save this video offline" / "archive this clip"
 - "get the audio from this lecture / podcast / talk"
 - "save this Mixcloud set" / "grab this SoundCloud track" / "download this Bandcamp song"
+- "save this Twitch clip" / "download this Streamable video"
 
 A chatbot should call `get_video_info` (no quota cost) when the user asks:
 
@@ -90,7 +93,7 @@ Full trigger-phrase list and JSON-RPC examples live in
 
 ### `download_video` parameters
 
-- `url` *(required)* — full URL from any of the 11 supported platforms above.
+- `url` *(required)* — full URL from any of the ten supported platforms above.
   Playlists, sets, albums, channels, and profile pages are **not** supported —
   pick a single video / track.
 - `format` *(optional, default `mp4`)* — one of:
@@ -129,6 +132,8 @@ Then restart Claude and ask any of:
 - *"save this TikTok: https://www.tiktok.com/@username/video/1234567890"*
 - *"grab this SoundCloud track: https://soundcloud.com/artist/track-slug"*
 - *"download this Mixcloud set: https://www.mixcloud.com/channel/show-slug/"*
+- *"save this Twitch clip: https://clips.twitch.tv/<slug>"*
+- *"download this Streamable: https://streamable.com/<slug>"*
 
 ---
 
