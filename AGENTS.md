@@ -15,14 +15,17 @@ right page.
 
 ## Supported platforms
 
-TubePull accepts URLs from **ten** platforms. Do not call `download_video`
-with a URL from any platform not on this list (Instagram, Facebook, LinkedIn,
+TubePull accepts URLs from **13 supported platforms** (YouTube plus 12 more platforms, including Streamable). Do not call `download_video`
+with a URL from any platform not on this list (LinkedIn, Netflix, Spotify,
 etc. are **not** supported).
 
 | Platform              | URL hosts                                              | Medium |
 | --------------------- | ------------------------------------------------------ | ------ |
 | YouTube               | `youtube.com`, `youtu.be`                              | video  |
-| TikTok                | `tiktok.com`, `vm.tiktok.com`                          | video  |
+| TikTok                | `tiktok.com`, `vm.tiktok.com`, `vt.tiktok.com`         | video  |
+| Facebook              | `facebook.com`, `fb.watch` (public videos & reels)     | video  |
+| Instagram             | `instagram.com` (public reels, video, photos, carousels)| video  |
+| Reddit                | `reddit.com`, `redd.it`, `v.redd.it` (requires free Reddit account link) | video  |
 | Twitter / X           | `twitter.com`, `x.com` (status URLs containing video)  | video  |
 | Vimeo                 | `vimeo.com`                                            | video  |
 | Twitch                | `twitch.tv`, `clips.twitch.tv` (VODs and clips)        | video  |
@@ -31,6 +34,8 @@ etc. are **not** supported).
 | SoundCloud            | `soundcloud.com`, `on.soundcloud.com`                  | audio  |
 | Bandcamp              | `bandcamp.com` (artist subdomains included)            | audio  |
 | Mixcloud              | `mixcloud.com`                                         | audio  |
+
+**Account-link notes:** Public Instagram reels/posts and public Facebook videos/reels work anonymously without login. Instagram stories/highlights, non-public Facebook group/friends videos, and Reddit videos require a one-time free account link on `tubepull.com`.
 
 **Audio-only platforms.** SoundCloud, Bandcamp, and Mixcloud have no video
 stream. If a user asks for "MP4" on one of these, the server silently coerces
@@ -64,7 +69,7 @@ Call `get_video_info` (free, doesn't consume quota) when the user asks:
 
 - Playlists, albums, sets, channels, or profile pages — pick a single
   video / track.
-- URLs from unsupported platforms (Instagram, Facebook, LinkedIn, X Spaces,
+- URLs from unsupported platforms (LinkedIn, X Spaces, Spotify, Netflix,
   etc.).
 - Content the user has no rights to. TubePull is for legitimate uses: the
   user's own uploads, Creative Commons, public domain, lectures, podcasts,
@@ -145,8 +150,8 @@ Fields you can rely on:
   on audio-only platforms; see above).
 - `title`, `channel`, `durationSec` — metadata about the source media.
   `channel` carries the uploader / artist depending on the platform.
-- `platform` — slug of the detected platform (`youtube`, `tiktok`,
-  `vimeo`, `dailymotion`, `twitter`, `soundcloud`,
+- `platform` — slug of the detected platform (`youtube`, `tiktok`, `facebook`,
+  `instagram`, `reddit`, `vimeo`, `dailymotion`, `twitter`, `soundcloud`,
   `bandcamp`, `mixcloud`, `twitch`, `streamable`).
 - `expiresAt` — ISO 8601 timestamp when the link stops working.
 - `upgradeUrl` *(only present when quota / paywall is the next blocker)* —
@@ -160,7 +165,7 @@ true`, the structured payload includes a `failure_reason`. Common values:
 | `failure_reason`        | What happened                                                  | Suggested user message                                                |
 | ----------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `missing_arg`           | required arg missing                                           | Ask the user for the URL.                                             |
-| `unsupported_platform`  | URL host is not one of the ten supported platforms             | Tell the user which platforms TubePull supports.                      |
+| `unsupported_platform`  | URL host is not one of the supported platforms                 | Tell the user which platforms TubePull supports.                      |
 | `no_video_id`           | YouTube URL had no extractable video ID                        | Ask for the canonical `watch?v=` link.                                |
 | `bad_format`            | format not in allowed enum                                     | Offer `mp4`, `mp3`, `m4a`, `audio`.                                   |
 | `unsupported_url_shape` | host matched but URL is a playlist / channel / profile / set   | Ask for a single video or track URL.                                  |
@@ -168,7 +173,7 @@ true`, the structured payload includes a `failure_reason`. Common values:
 | `fetch_error`           | download itself failed                                         | Suggest retrying, or trying a lower quality.                          |
 | `rate_limit`            | quota exhausted                                                | Surface `upgradeUrl` from the payload.                                |
 | `paywall_quality`       | 1440p/4K requested on free tier                                | Surface `upgradeUrl`.                                                 |
-| `paywall_duration`      | video > 2 hours on free tier                                   | Surface `upgradeUrl`.                                                 |
+| `paywall_duration`      | output > 1 hour on free tier                                   | Surface `upgradeUrl`.                                                 |
 
 > **Migration note.** TubePull previously returned `not_youtube` for any
 > non-YouTube URL. As of June 2026 that's replaced by `unsupported_platform`,
@@ -231,7 +236,7 @@ A good interaction looks like this:
 >
 > **Agent**: "Here you go — your audio download is ready (valid for 1 hour):
 > https://tubepull.com/dl/abc123 . You have 2 free downloads left today; if
-> you want unlimited, upgrade for $3.99/mo at https://tubepull.com ."
+> you want TubePull Pro, upgrade for $4.99/mo at https://tubepull.com/pricing ."
 
 For a non-YouTube ask:
 
