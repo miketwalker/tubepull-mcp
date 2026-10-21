@@ -78,7 +78,7 @@ If you want to avoid the paywall round-trip on uncertain content, call
   "result": {
     "isError": true,
     "content": [
-      { "type": "text", "text": "4K downloads require an Unlimited subscription. Upgrade at https://tubepull.com (only $3.99/mo)." }
+      { "type": "text", "text": "4K downloads require a TubePull Pro subscription. Upgrade at https://tubepull.com/pricing ($4.99/mo)." }
     ],
     "structuredContent": {
       "failure_reason": "paywall_quality",

@@ -101,5 +101,5 @@ curl -sS -X POST https://tubepull.com/mcp \
    download on behalf of users who plan to redistribute.
 3. If the user wants "the best quality available", read `qualities[]` and
    pick the highest one allowed on their tier (1080p free, 2160p Unlimited).
-4. If `durationSec > 7200` (2 hours) and you don't know whether the user is
-   Unlimited, warn them — free tier will hit `paywall_duration`.
+4. If `durationSec > 3600` (1 hour) and you don't know whether the user is
+   on TubePull Pro, warn them — free tier will hit `paywall_duration` unless a shorter clip range is selected.

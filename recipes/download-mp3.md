@@ -113,5 +113,5 @@ curl -sS -X POST https://tubepull.com/mcp \
 Hand the user the `downloadUrl` plus the remaining-quota / upgrade context:
 
 > "Here's your MP3: https://tubepull.com/dl/abc123 (good for 1 hour). You
-> have 2 free downloads left today — unlimited is $3.99/mo at
-> https://tubepull.com if you want to lift the cap."
+> have 2 free downloads left today — TubePull Pro is $4.99/mo at
+> https://tubepull.com/pricing if you want to lift the cap."

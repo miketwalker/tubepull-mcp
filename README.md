@@ -2,13 +2,14 @@
 
 > 🌐 **Landing page**: [https://tubepull.com/mcp](https://tubepull.com/mcp) — features, pricing, FAQ, and one-click setup links for Claude, Perplexity, ChatGPT, and Cursor.
 
-> Download video or audio from YouTube, TikTok, Twitter/X, SoundCloud,
-> Vimeo, Twitch, Streamable, Bandcamp, Mixcloud, and Dailymotion — from any
-> MCP-compatible AI assistant (Claude Desktop, Claude Code, Cursor, Windsurf,
-> Cline, ChatGPT-via-MCP, Perplexity, Continue, Zed, LibreChat, …).
+> Download video or audio from YouTube, TikTok, Facebook, Instagram, Reddit,
+> Twitter/X, SoundCloud, Vimeo, Twitch, Streamable, Bandcamp, Mixcloud, and
+> Dailymotion — from any MCP-compatible AI assistant (Claude Desktop, Claude
+> Code, Cursor, Windsurf, Cline, ChatGPT-via-MCP, Perplexity, Continue, Zed,
+> LibreChat, …).
 
 This repo is the **public, chatbot-facing documentation** for the TubePull MCP
-server. The live server runs at `https://tubepull.com/mcp`. The application
+server. The live server runs at `https://tubepull.com/mcp`, and canonical machine-readable product facts are published at [`https://tubepull.com/facts`](https://tubepull.com/facts) (`https://tubepull.com/facts.json`). The application
 source code is private — only the integration surface that LLMs and end users
 need to call the server lives here.
 
@@ -23,12 +24,15 @@ TubePull, jump straight to [`AGENTS.md`](./AGENTS.md) and
 
 TubePull is a hosted **MCP (Model Context Protocol) server** that lets an AI
 assistant download a video or audio file to disk on the user's behalf, from
-any of **ten supported platforms**:
+any of **13 supported platforms** (YouTube plus 12 more platforms, including Streamable):
 
 | Platform              | Hosts                                              | Default medium |
 | --------------------- | -------------------------------------------------- | -------------- |
 | YouTube               | `youtube.com`, `youtu.be`                          | video          |
-| TikTok                | `tiktok.com`, `vm.tiktok.com`                      | video          |
+| TikTok                | `tiktok.com`, `vm.tiktok.com`, `vt.tiktok.com`     | video          |
+| Facebook              | `facebook.com`, `fb.watch`                         | video          |
+| Instagram             | `instagram.com` (public reels, video, photos)      | video          |
+| Reddit                | `reddit.com`, `redd.it`, `v.redd.it` (account link)| video          |
 | Twitter / X           | `twitter.com`, `x.com` (status URLs with video)    | video          |
 | Vimeo                 | `vimeo.com`                                        | video          |
 | Twitch                | `twitch.tv`, `clips.twitch.tv` (VODs and clips)    | video          |
@@ -38,12 +42,12 @@ any of **ten supported platforms**:
 | Bandcamp              | `bandcamp.com` (artist subdomains included)        | **audio**      |
 | Mixcloud              | `mixcloud.com`                                     | **audio**      |
 
-- **One HTTP endpoint** — `POST https://tubepull.com/mcp` (JSON-RPC 2.0, MCP
+- **One HTTP endpoint** — `POST https://tubepull.com/mcp` (Streamable HTTP / JSON-RPC 2.0, MCP
   protocol version `2024-11-05`).
 - **No SDK install, no local binary** — the assistant just speaks JSON-RPC.
 - **Two tools**: `download_video` and `get_video_info`.
-- **Free tier**: 3 downloads per 24h per client. **Unlimited**: $3.99/mo at
-  [tubepull.com](https://tubepull.com).
+- **Free tier**: 3 downloads per rolling 24h per client, up to 1080p Full HD and up to 1 hour of output length. **Pro**: $4.99/month ($47.88/year, $3.99/mo billed annually) at
+  [tubepull.com/pricing](https://tubepull.com/pricing).
 - **Returns a signed one-time link** valid for 1 hour. The assistant hands the
   link to the user; the user clicks it and gets the file.
 
@@ -93,7 +97,7 @@ Full trigger-phrase list and JSON-RPC examples live in
 
 ### `download_video` parameters
 
-- `url` *(required)* — full URL from any of the ten supported platforms above.
+- `url` *(required)* — full URL from any of the supported platforms above.
   Playlists, sets, albums, channels, and profile pages are **not** supported —
   pick a single video / track.
 - `format` *(optional, default `mp4`)* — one of:
@@ -103,7 +107,7 @@ Full trigger-phrase list and JSON-RPC examples live in
   - `audio` — smart audio alias that resolves to M4A (no transcode, fastest).
 - `quality` *(optional)* — ignored for audio formats and on audio-only
   platforms. Common values: `360p`, `480p`, `720p`, `1080p`, `1440p`, `2160p`.
-  Defaults to best. **1440p and 4K (2160p) require Unlimited.**
+  Defaults to best. **1440p and 4K (2160p) require TubePull Pro.**
 
 ### `get_video_info` parameters
 
@@ -139,10 +143,11 @@ Then restart Claude and ask any of:
 
 ## Quotas, pricing, and the upgrade flow
 
-- **Free / anonymous**: 3 downloads per 24h per MCP client (shared bucket with
-  the web frontend's anonymous tier).
-- **Unlimited**: $3.99/mo. Removes the 3/day cap, unlocks **1440p** and **4K**
-  video, and unlocks videos **longer than 2 hours**.
+- **Free / anonymous**: 3 downloads per rolling 24h per MCP client (shared bucket with
+  the web frontend's anonymous tier), up to 1080p Full HD and up to 1 hour of output length.
+- **TubePull Pro**: $4.99/month ($47.88/year, $3.99/month billed annually). Removes the 3/day cap for normal personal use, unlocks **1440p (2K)** and **4K (2160p)**
+  video plus **320 kbps MP3**, and lifts the 1-hour output-length cap.
+- **Authentication**: Supports unauthenticated Free-tier access, OAuth 2.1 + PKCE (`/.well-known/oauth-authorization-server`) for Pro accounts, and legacy `X-MCP-Client-Id` headers. See [https://tubepull.com/setup-mcp](https://tubepull.com/setup-mcp).
 - When the quota is hit, the tool response includes an `upgradeUrl` pointing
   at `https://tubepull.com` with attribution params so the conversion is
   credited back to the chatbot that drove it.

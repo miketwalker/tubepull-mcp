@@ -1,6 +1,6 @@
 # Recipe: download from non-YouTube platforms
 
-TubePull supports seven platforms beyond YouTube. The MCP surface is identical
+TubePull supports twelve platforms beyond YouTube. The MCP surface is identical
 to YouTube — same `download_video` tool, same `url` argument. Just pass the
 URL and TubePull detects the platform automatically.
 
@@ -9,9 +9,14 @@ URL and TubePull detects the platform automatically.
 | Platform              | Example URL                                                                  | Medium |
 | --------------------- | ---------------------------------------------------------------------------- | ------ |
 | TikTok                | `https://www.tiktok.com/@username/video/1234567890`                          | video  |
+| Facebook              | `https://www.facebook.com/watch/?v=1234567890`                               | video  |
+| Instagram             | `https://www.instagram.com/reel/AbCdEfGhIjK/`                                | video  |
+| Reddit                | `https://www.reddit.com/r/sub/comments/abc123/post/` (requires account link) | video  |
 | Vimeo                 | `https://vimeo.com/123456789`                                                | video  |
 | Dailymotion           | `https://www.dailymotion.com/video/x7tgad0`                                  | video  |
 | Twitter / X           | `https://twitter.com/user/status/1234567890` (status must contain a video)   | video  |
+| Twitch                | `https://clips.twitch.tv/ExampleClipSlug`                                    | video  |
+| Streamable            | `https://streamable.com/abc123`                                              | video  |
 | SoundCloud            | `https://soundcloud.com/artist/track-slug`                                   | audio  |
 | Bandcamp              | `https://artist.bandcamp.com/track/song-slug`                                | audio  |
 | Mixcloud              | `https://www.mixcloud.com/channel/show-slug/`                                | audio  |
@@ -83,14 +88,14 @@ because SoundCloud has no video stream. To request MP3, pass it explicitly:
 ```
 
 Mixcloud sets are often 1–3 hours long. Free-tier users will hit
-`paywall_duration` on anything over 2 hours — surface `upgradeUrl` from the
+`paywall_duration` on anything over 1 hour of output length — surface `upgradeUrl` from the
 response.
 
 ## What `failure_reason` to expect
 
 | `failure_reason`        | What to tell the user                                                      |
 | ----------------------- | -------------------------------------------------------------------------- |
-| `unsupported_platform`  | "TubePull doesn't support that site. Supported: YouTube, TikTok, Vimeo, Dailymotion, Twitter/X, SoundCloud, Bandcamp, Mixcloud." |
+| `unsupported_platform`  | "TubePull doesn't support that site. Supported: YouTube, TikTok, Facebook, Instagram, Reddit, Vimeo, Dailymotion, Twitter/X, Twitch, Streamable, SoundCloud, Bandcamp, Mixcloud." |
 | `unsupported_url_shape` | "That looks like a profile / playlist / channel page. Send a single track or video URL." |
 | `probe_error`           | Likely region-locked, private, or removed. Tell the user.                  |
 | `fetch_error`           | Suggest retrying or trying a different quality.                            |
